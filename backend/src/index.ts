@@ -1,12 +1,13 @@
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
+import usersRouter from './routes/usersRoutes';
 
 // Initialize the application
 const app = new Koa();
 
 app.use(cors({
-  origin: 'http://localhost:8081', // * to allow all origins
+  origin: 'http://localhost:5173', // * to allow all origins
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE',],
   allowHeaders: ['Content-Type', 'Authorization'],
 }))
@@ -19,6 +20,10 @@ app.use(async (ctx, next) => {
 	console.log(`Request received from path: ${ctx.path}, method: ${ctx.method}`);
 	await next();
 })
+
+// Routes
+app.use(usersRouter.routes());
+app.use(usersRouter.allowedMethods());
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
