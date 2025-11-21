@@ -2,6 +2,7 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import usersRouter from './routes/usersRoutes';
+import authRouter from './routes/authRoutes';
 
 // Initialize the application
 const app = new Koa();
@@ -24,6 +25,8 @@ app.use(async (ctx, next) => {
 // Routes
 app.use(usersRouter.routes());
 app.use(usersRouter.allowedMethods());
+app.use(authRouter.routes());
+app.use(authRouter.allowedMethods());
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
