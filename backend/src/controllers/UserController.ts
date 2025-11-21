@@ -1,9 +1,9 @@
 import { Context } from "koa";
-import UserRepository from "../repositories/UserRepository";
+import UserPrismaRepository from "../repositories/UserPrismaRepository";
 import { User } from "../models/users";
 import { validateUser } from "../services/usersService";
 
-const userRepo = new UserRepository();
+const userRepo = new UserPrismaRepository();
 
 export async function getUsers(ctx: Context): Promise<void> {
   const users = await userRepo.findAll();
