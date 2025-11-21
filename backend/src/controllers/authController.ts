@@ -25,3 +25,22 @@ export async function login (ctx: Context) :Promise<void> {
         ctx.body={error: 'Internal server error'}
     }
 }
+
+export async function logout(ctx: Context) {
+  const { sessionId } = ctx.request.body as { sessionId: string };
+
+  if (!sessionId) {
+    ctx.status = 400;
+    ctx.body = { error: "session-id-required" };
+    return;
+  }
+
+  try {
+    await logoutService(sessionId);
+    ctx.status = 200;
+    ctx.body = { success: true };
+  } catch (err) {
+    ctx.status = 500;
+    ctx.body = { error: "internal-error" };
+  }
+}
